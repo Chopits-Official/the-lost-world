@@ -1,9 +1,9 @@
-# Fabric Example Mod
+# The Lost World
 
-## Setup
-
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
-
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+**When** you open your eyes, the world is no longer as you knew it.  
+**It** is very mysterious, ruins everywhere, countless legends and secrets mixed in the distant wanders of the song.  
+**Ah!**  
+**You**, stranger from a strange land!  
+**The** world is full of secrets and history is buried in dust!
+**Do** you choose to muddle through, or explore the unknown?
+**The choice is in your own hands.**
