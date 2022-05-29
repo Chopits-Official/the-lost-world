@@ -4,6 +4,9 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.chopits.tlw.RegistryObjects.BLOCK;
+import static com.chopits.tlw.RegistryObjects.ITEM;
+
 public class TheLostWorld implements ModInitializer {
 	/**
 	 * The mod id.
@@ -17,6 +20,8 @@ public class TheLostWorld implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		ITEM.registry();
+		BLOCK.registry();
 		LOGGER.info("Hello Traveller!");
 	}
 }
