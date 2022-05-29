@@ -5,5 +5,5 @@
 **Ah!**  
 **You**, stranger from a strange land!  
 **The** world is full of secrets and history is buried in dust!
-**Do** you choose to muddle through, or explore the unknown?
+**Do** you choose to muddle through, or explore the unknown?  
 **The choice is in your own hands.**
