@@ -1,0 +1,10 @@
+{
+  "attribute.name.generic.max_magic": "Magic",
+  "attribute.name.generic.max_talent_level": "Talent Level",
+
+  "attribute.name.point.max_str": "Strength",
+  "attribute.name.point.max_dex": "Dexterity",
+  "attribute.name.point.max_mys": "Mysterious",
+  "attribute.name.point.max_con": "Constitution",
+  "attribute.name.point.max_bel": "Belief"
+}

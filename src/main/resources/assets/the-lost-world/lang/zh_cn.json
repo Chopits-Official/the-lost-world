@@ -1,0 +1,10 @@
+{
+  "attribute.name.generic.max_magic": "魔力",
+  "attribute.name.generic.max_talent_level": "天赋等级",
+
+  "attribute.name.point.max_str": "力量",
+  "attribute.name.point.max_dex": "灵巧",
+  "attribute.name.point.max_mys": "神秘",
+  "attribute.name.point.max_con": "体质",
+  "attribute.name.point.max_bel": "信仰"
+}

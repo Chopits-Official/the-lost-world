@@ -4,6 +4,9 @@
   "package": "com.chopits.tlw.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "EntityAttributesInvoker",
+    "InGameHudMixin",
+    "PlayerEntityMixin"
   ],
   "client": [
     "ExampleMixin"
