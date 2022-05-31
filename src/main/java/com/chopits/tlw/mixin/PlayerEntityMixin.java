@@ -35,13 +35,15 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerE
             at = @At(value = "RETURN")
     )
     private void injectInit(World world, BlockPos pos, float yaw, GameProfile profile, CallbackInfo ci) {
-        this.setTalentLevel(5);
-        this.setMys(1);
+        TheLostWorld.LOGGER.info("Init Object");//TODO
+        this.setTalentLevel(16);//TODO
+        this.setMagic(16.0F);
+        this.setMys(10);//TODO
         this.setStr(1);
         this.setDex(1);
         this.setCon(1);
         this.setBel(1);
-        this.setMagic(16.0F);
+
     }
 
     @Inject(
@@ -71,6 +73,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerE
             at = @At(value = "RETURN")
     )
     private void injectReadCustomDataFromNbt(@NotNull NbtCompound nbt, CallbackInfo ci) {
+        TheLostWorld.LOGGER.info("Start read NBT tags");//TODO
         if (nbt.contains("TalentLevel")) this.setTalentLevel(nbt.getInt("TalentLevel"));
         if (nbt.contains("STR") && nbt.contains("DEX") && nbt.contains("MYS") && nbt.contains("CON") && nbt.contains("BEL")) {
             this.setStr(nbt.getInt("STR"));
@@ -80,6 +83,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerE
             this.setCon(nbt.getInt("CON"));
         }
         if (nbt.contains("Magic")) this.setMagic(nbt.getFloat("Magic"));
+        TheLostWorld.LOGGER.info("Print Attributes :");
+        TheLostWorld.LOGGER.info("this.getTalentLevel() = " + this.getTalentLevel() + "; this.getMaxTalentLevel() = " + this.getMaxTalentLevel());
+        TheLostWorld.LOGGER.info("this.getMys() = " + this.getMys() + "; this.getMaxMys() = " + this.getMaxMys());
+        TheLostWorld.LOGGER.info("this.getMagic() = " + this.getMagic() + "; this.getMaxMagic() = " + this.getMaxMagic());
     }
 
     @Inject(
@@ -109,6 +116,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerE
             at = @At(value = "RETURN")
     )
     private void injectInitDataTracker(CallbackInfo ci) {
+        TheLostWorld.LOGGER.info("Init Data Tracker");//TODO
         this.dataTracker.startTracking(TheLostWorld.TALENT_LEVEL, 0);
         this.dataTracker.startTracking(TheLostWorld.MAGIC, 0.0F);
         this.dataTracker.startTracking(TheLostWorld.STR, 0);
@@ -121,7 +129,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerE
     //Custom Attributes
     @Override
     public float getMaxMagic() {
-        return (float) this.getAttributeValue(Attributes.GENERIC_MAX_MAGIC);
+        return (float) Objects.requireNonNull(this.getAttributeInstance(Attributes.GENERIC_MAX_MAGIC)).getValue();
     }
 
     @Override
@@ -136,7 +144,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerE
 
     @Override
     public int getMaxTalentLevel() {
-        return (int) this.getAttributeValue(Attributes.GENERIC_MAX_TALENT_LEVEL);
+        return (int) Objects.requireNonNull(this.getAttributeInstance(Attributes.GENERIC_MAX_TALENT_LEVEL)).getValue();
     }
 
     @Override
@@ -151,7 +159,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerE
 
     @Override
     public int getMaxStr() {
-        return (int) this.getAttributeValue(Attributes.POINT_MAX_STR);
+        return (int) Objects.requireNonNull(this.getAttributeInstance(Attributes.POINT_MAX_STR)).getValue();
     }
 
     @Override
@@ -161,13 +169,13 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerE
 
     @Override
     public void setStr(int str) {
-        if (this.talentAccessible(str)) return;
+        if (!this.talentAccessible(str)) return;
         this.dataTracker.set(TheLostWorld.STR, MathHelper.clamp(str, 0, this.getMaxStr()));
     }
 
     @Override
     public int getMaxMys() {
-        return (int) this.getAttributeValue(Attributes.POINT_MAX_MYS);
+        return (int) Objects.requireNonNull(this.getAttributeInstance(Attributes.POINT_MAX_MYS)).getValue();
     }
 
     @Override
@@ -177,14 +185,15 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerE
 
     @Override
     public void setMys(int mys) {
-        if (this.talentAccessible(mys)) return;
+        if (!this.talentAccessible(mys)) return;
         this.dataTracker.set(TheLostWorld.MYS, MathHelper.clamp(mys, 0, this.getMaxMys()));
         Objects.requireNonNull(this.getAttributeInstance(Attributes.GENERIC_MAX_MAGIC)).setBaseValue(this.getMys() * 16.0F);
+        this.setMagic(this.getMys() * 16);
     }
 
     @Override
     public int getMaxDex() {
-        return (int) this.getAttributeValue(Attributes.POINT_MAX_DEX);
+        return (int) Objects.requireNonNull(this.getAttributeInstance(Attributes.POINT_MAX_DEX)).getValue();
     }
 
     @Override
@@ -194,13 +203,13 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerE
 
     @Override
     public void setDex(int dex) {
-        if (this.talentAccessible(dex)) return;
+        if (!this.talentAccessible(dex)) return;
         this.dataTracker.set(TheLostWorld.DEX, MathHelper.clamp(dex, 0, this.getMaxDex()));
     }
 
     @Override
     public int getMaxCon() {
-        return (int) this.getAttributeValue(Attributes.POINT_MAX_CON);
+        return (int) Objects.requireNonNull(this.getAttributeInstance(Attributes.POINT_MAX_CON)).getValue();
     }
 
     @Override
@@ -210,7 +219,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerE
 
     @Override
     public void setCon(int con) {
-        if (this.talentAccessible(con)) return;
+        if (!this.talentAccessible(con)) return;
         double h = Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)).getBaseValue();
         int i = this.getCon() * 2;
         Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)).setBaseValue( h - i);
@@ -220,7 +229,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerE
 
     @Override
     public int getMaxBel() {
-        return (int) this.getAttributeValue(Attributes.POINT_MAX_BEL);
+        return (int) Objects.requireNonNull(this.getAttributeInstance(Attributes.POINT_MAX_BEL)).getValue();
     }
 
     @Override
@@ -230,7 +239,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerE
 
     @Override
     public void setBel(int bel) {
-        if (this.talentAccessible(bel)) return;
+        if (!this.talentAccessible(bel)) return;
         this.dataTracker.set(TheLostWorld.BEL, MathHelper.clamp(bel, 0, this.getMaxBel()));
     }
 
